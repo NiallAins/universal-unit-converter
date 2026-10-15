@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        Universal Unit Converter
+    </title>
+
+    <link href="https://cdn.lineicons.com/5.0/lineicons.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+<div
+    id="EL_APP"
+    class="app"
+>
+    <h1 class="header">
+        Convert Anything to Anything
+    </h1>
+    <div class="inputs">
+        <div>
+            <div class="inputs__amount">
+                <input
+                    id="EL_INPUT_AMOUNT"
+                    class="input inputs__amount-input"
+                    type="number"
+                />
+            </div>
+            <div class="inputs__from">
+                <div
+                    id="EL_INPUT_FROM_DESC"
+                    class="inputs__from-description"
+                ></div>
+                <span
+                    id="EL_INPUT_FROM_PROXY"
+                    class="input inputs__from-proxy"
+                ></span>
+                <input
+                    id="EL_INPUT_FROM"
+                    class="input inputs__from-input"
+                    type="text"
+                    autocomplete="off"
+                    spellcheck="false"
+                    onfocus="toggleFilters(event.target)"
+                    onkeydown="filterKey(event.key)"
+                />
+            </div>
+        </div>
+        <div>
+            <div class="inputs__help">
+                <button
+                    class="inputs__button"
+                    onclick="
+                        EL_INPUT_FROM_DESC.classList.toggle('inputs__from-description--show');
+                        EL_INPUT_TO_DESC.classList.toggle('inputs__to-description--show');
+                    "
+                >
+                    <i class="lni lni-question-mark"></i>
+                </button>
+            </div>
+            <div class="inputs__shuffle">
+                <button
+                    class="inputs__button"
+                    onclick="setRandom()"
+                >
+                    <i class="lni lni-shuffle"></i>
+                </button>
+            </div>
+            <div class="inputs__switch">
+                <button
+                    class="inputs__button"
+                    onclick="switchInputs()"
+                >
+                    <i class="lni lni-arrow-both-direction-vertical-1"></i>
+                </button>
+            </div>
+            <div class="inputs__format">
+                <button
+                    id="EL_BUTTON_FORMAT"
+                    class="inputs__button"
+                    onclick="changeFormat()"
+                >
+                    10<sup>x</sup>
+                </button>
+            </div>
+            <div class="inputs__equal">
+                is equal to
+            </div>
+        </div>
+        <div>
+            <div class="inputs__output">
+                <span
+                    id="EL_OUTPUT"
+                    class="inputs__output-content"
+                ></span>
+            </div>
+            <div class="inputs__to">
+                <div
+                    id="EL_INPUT_TO_DESC"
+                    class="inputs__to-description"
+                ></div>
+                <span
+                    id="EL_INPUT_TO_PROXY"
+                    class="input inputs__to-proxy"
+                ></span>
+                <input
+                    id="EL_INPUT_TO"
+                    class="input inputs__to-input"
+                    type="text"
+                    autocomplete="off"
+                    spellcheck="false"
+                    onfocus="toggleFilters(event.target)"
+                    onkeydown="filterKey(event.key)"
+                />
+            </div>
+            <div
+                id="EL_OUTPUT_PER_CONTAIN"
+                class="inputs__output"
+            >
+                <span
+                    id="EL_OUTPUT_PER"
+                    class="inputs__output-content"
+                ></span>
+            </div>
+        </div>
+    </div>
+    <div class="footer"></div>
+</div>
+
+<script src="./main.js" type="module"></script>
+
+</body>
+
+</html>

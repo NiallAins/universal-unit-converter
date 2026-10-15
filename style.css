@@ -1,0 +1,541 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap");
+@property --grad-from {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgb(255, 15.8, 255);
+}
+@property --grad-to {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: purple;
+}
+html {
+  font-size: 16px;
+}
+
+body {
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+body, input {
+  font-family: Helvetica, sans-serif;
+  font-weight: 200;
+  color: white;
+  font-size: 3rem;
+}
+
+input,
+.input {
+  font-family: "Lexend Deca", sans-serif;
+  font-weight: 400;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.1333333333);
+  border: none;
+  border-radius: 1rem;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+}
+input[type=number],
+.input[type=number] {
+  font-family: Helvetica, sans-serif;
+  font-weight: 200;
+  text-align: right;
+  -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button,
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input:focus,
+.input:focus {
+  outline: none;
+  box-shadow: inset 0 0.5rem 1rem 0.5rem rgba(0, 0, 0, 0.1333333333);
+}
+
+button {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  text-transform: capitalize;
+  background-color: white;
+  cursor: pointer;
+}
+
+sup {
+  display: inline-block;
+  margin-top: -1em;
+}
+
+.app {
+  position: fixed;
+  inset: 0 0 0 0;
+  display: grid;
+  grid-template: 1fr 1fr 1fr/100%;
+  align-items: center;
+  justify-items: center;
+  background: linear-gradient(135deg, var(--grad-from), var(--grad-to));
+  transition: --grad-from 1s, --grad-to 1s;
+}
+.app[data-from=mass] {
+  --grad-from: rgb(255, 15.8, 255);
+}
+.app[data-to=mass] {
+  --grad-to: purple;
+}
+.app[data-from=length] {
+  --grad-from: rgb(255, 176.8304347826, 162.8);
+}
+.app[data-to=length] {
+  --grad-to: tomato;
+}
+.app[data-from=time] {
+  --grad-from: rgb(0, 230.8, 230.8);
+}
+.app[data-to=time] {
+  --grad-to: darkcyan;
+}
+.app[data-from=temperature] {
+  --grad-from: rgb(255, 169.9, 66.3);
+}
+.app[data-to=temperature] {
+  --grad-to: darkorange;
+}
+.app[data-from=current] {
+  --grad-from: rgb(121.8, 189.288, 255);
+}
+.app[data-to=current] {
+  --grad-to: dodgerblue;
+}
+.app[data-from=amount] {
+  --grad-from: rgb(190.36, 223, 123.8);
+}
+.app[data-to=amount] {
+  --grad-to: yellowgreen;
+}
+.app[data-from=luminosity] {
+  --grad-from: rgb(255, 255, 91.8);
+}
+.app[data-to=luminosity] {
+  --grad-to: yellow;
+}
+.app[data-from=area] {
+  --grad-from: rgb(255, 111.8, 189.1889361702);
+}
+.app[data-to=area] {
+  --grad-to: deeppink;
+}
+.app[data-from=volume] {
+  --grad-from: rgb(255, 87.2, 87.2);
+}
+.app[data-to=volume] {
+  --grad-to: maroon;
+}
+.app[data-from=angle] {
+  --grad-from: rgb(191.75, 191.75, 191.75);
+}
+.app[data-to=angle] {
+  --grad-to: gray;
+}
+.app[data-from=acceleration] {
+  --grad-from: rgb(0, 219.8, 0);
+}
+.app[data-to=acceleration] {
+  --grad-to: green;
+}
+.app[data-from=force] {
+  --grad-from: rgb(251.727, 220.088, 40.073);
+}
+.app[data-to=force] {
+  --grad-to: rgb(197, 168, 3);
+}
+
+.header {
+  width: 100%;
+  max-width: 50rem;
+  align-self: start;
+  justify-self: start;
+  padding: 2rem;
+  margin: 0 auto;
+  text-align: left;
+  font-size: 2rem;
+  font-weight: 500;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.inputs {
+  display: grid;
+  grid-template: 1fr auto 1fr/auto;
+  max-width: 100%;
+  width: 50rem;
+  padding: 1rem;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+.inputs > div {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.inputs > div:first-child {
+  align-self: end;
+}
+.inputs > div:last-child {
+  align-self: start;
+}
+.inputs__amount-input {
+  width: 18rem;
+}
+.inputs__equal {
+  width: 100%;
+  text-align: center;
+}
+.inputs__output {
+  padding: 1rem;
+  white-space: nowrap;
+  line-height: 0.75;
+  align-self: center;
+  font-size: 2rem;
+}
+.inputs__output-number {
+  font-size: 3rem;
+}
+.inputs__output--hide {
+  display: none;
+}
+.inputs__to, .inputs__from {
+  width: 100%;
+  position: relative;
+}
+.inputs__to-input, .inputs__from-input {
+  position: absolute;
+  inset: 0 0 0 0;
+  opacity: 0;
+}
+.inputs__to-input.open, .inputs__from-input.open {
+  opacity: 1;
+}
+.inputs__to-proxy, .inputs__from-proxy {
+  width: calc(100% - 3rem);
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  pointer-events: none;
+  text-transform: capitalize;
+}
+.inputs__to:has(.open) .inputs__to-proxy, .inputs__to:has(.open) .inputs__from-proxy, .inputs__from:has(.open) .inputs__to-proxy, .inputs__from:has(.open) .inputs__from-proxy {
+  opacity: 0;
+}
+.inputs__to-description, .inputs__from-description {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: none;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  text-align: left;
+  line-height: 2;
+  font-size: 1rem;
+  font-family: Helvetica, sans-serif;
+  color: #222;
+  background: rgba(255, 255, 255, 0.6666666667);
+}
+.inputs__to-description--show, .inputs__from-description--show {
+  display: block;
+}
+.inputs__from-description {
+  bottom: calc(100% + 1rem);
+}
+.inputs__to-description {
+  top: calc(100% + 1rem);
+}
+.inputs__description--code {
+  display: inline-block;
+  padding: 0 0.5rem;
+  margin: 0 0.25rem;
+  border-radius: 0.5rem;
+  vertical-align: middle;
+  font-weight: 500;
+  font-size: 0.875rem;
+  background-color: white;
+}
+.inputs__help, .inputs__shuffle, .inputs__switch {
+  position: absolute;
+  left: calc(100% + 2rem);
+}
+.inputs__help i, .inputs__shuffle i, .inputs__switch i {
+  font-size: 1.25rem;
+}
+.inputs__format {
+  position: absolute;
+  right: calc(100% + 1rem);
+}
+.inputs__format--show {
+  opacity: 1;
+  pointer-events: all;
+}
+.inputs__help {
+  top: -3.5rem;
+}
+.inputs__help i {
+  font-weight: bold;
+}
+.inputs__shuffle {
+  top: 3.5rem;
+}
+.inputs__button {
+  white-space: nowrap;
+  aspect-ratio: 1/1;
+  color: white;
+  background: rgba(0, 0, 0, 0.1333333333);
+  border-radius: 100%;
+  line-height: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+  font-family: "Lexend Deca", sans-serif;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  cursor: pointer;
+  transition: opacity 0.5s;
+}
+.inputs__button--hide {
+  opacity: 0;
+}
+.inputs__button sup {
+  padding-left: 0.125rem;
+  font-size: 0.625rem;
+  font-style: italic;
+}
+.inputs__button:active {
+  box-shadow: inset 0 0.25rem 0.5rem 0.25rem rgba(0, 0, 0, 0.1333333333);
+}
+
+.filters {
+  display: none;
+  position: absolute;
+  padding-bottom: 2rem;
+}
+.filters--open {
+  display: block;
+}
+.filters--search .filters__modal-select, .filters--search .filters__modal-result {
+  display: none;
+}
+.filters--search .filters__modal-search {
+  display: flex;
+}
+.filters__modal {
+  position: relative;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.6666666667);
+  box-shadow: 0 1rem 1.5rem 0 rgba(0, 0, 0, 0.0666666667);
+  padding: 2rem 1.5rem 0.5rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-top: 1rem;
+  min-width: 20.75rem;
+  max-width: 100%;
+  backdrop-filter: blur(4px);
+}
+.filters__modal-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.filters__modal-result {
+  margin: 0 0 1.5rem;
+}
+.filters__modal-result-category {
+  display: none;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.filters__modal-result-category-header {
+  width: 100%;
+  margin: 1.5rem 0 0.5rem;
+  color: #222;
+  text-align: left;
+  font-weight: normal;
+  font-size: 1rem;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+}
+.filters__modal-search {
+  display: none;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.5rem;
+}
+.filters__modal-search-empty {
+  width: 100%;
+  text-align: center;
+  font-size: 1rem;
+  font-style: italic;
+  color: white;
+}
+.filters__modal-button--mass {
+  background-color: rgb(255, 15.8, 255);
+}
+.filters__modal--mass .filters__modal-select > .filters__modal-button--mass {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--mass) .filters__modal-result .filters__modal-button--mass {
+  display: none;
+}
+.filters__modal--mass .filters__modal-result-category:has(.filters__modal-button--mass) {
+  display: flex;
+}
+.filters__modal-button--length {
+  background-color: rgb(255, 176.8304347826, 162.8);
+}
+.filters__modal--length .filters__modal-select > .filters__modal-button--length {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--length) .filters__modal-result .filters__modal-button--length {
+  display: none;
+}
+.filters__modal--length .filters__modal-result-category:has(.filters__modal-button--length) {
+  display: flex;
+}
+.filters__modal-button--time {
+  background-color: rgb(0, 230.8, 230.8);
+}
+.filters__modal--time .filters__modal-select > .filters__modal-button--time {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--time) .filters__modal-result .filters__modal-button--time {
+  display: none;
+}
+.filters__modal--time .filters__modal-result-category:has(.filters__modal-button--time) {
+  display: flex;
+}
+.filters__modal-button--temperature {
+  background-color: rgb(255, 169.9, 66.3);
+}
+.filters__modal--temperature .filters__modal-select > .filters__modal-button--temperature {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--temperature) .filters__modal-result .filters__modal-button--temperature {
+  display: none;
+}
+.filters__modal--temperature .filters__modal-result-category:has(.filters__modal-button--temperature) {
+  display: flex;
+}
+.filters__modal-button--current {
+  background-color: rgb(121.8, 189.288, 255);
+}
+.filters__modal--current .filters__modal-select > .filters__modal-button--current {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--current) .filters__modal-result .filters__modal-button--current {
+  display: none;
+}
+.filters__modal--current .filters__modal-result-category:has(.filters__modal-button--current) {
+  display: flex;
+}
+.filters__modal-button--amount {
+  background-color: rgb(190.36, 223, 123.8);
+}
+.filters__modal--amount .filters__modal-select > .filters__modal-button--amount {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--amount) .filters__modal-result .filters__modal-button--amount {
+  display: none;
+}
+.filters__modal--amount .filters__modal-result-category:has(.filters__modal-button--amount) {
+  display: flex;
+}
+.filters__modal-button--luminosity {
+  background-color: rgb(255, 255, 91.8);
+}
+.filters__modal--luminosity .filters__modal-select > .filters__modal-button--luminosity {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--luminosity) .filters__modal-result .filters__modal-button--luminosity {
+  display: none;
+}
+.filters__modal--luminosity .filters__modal-result-category:has(.filters__modal-button--luminosity) {
+  display: flex;
+}
+.filters__modal-button--area {
+  background-color: rgb(255, 111.8, 189.1889361702);
+}
+.filters__modal--area .filters__modal-select > .filters__modal-button--area {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--area) .filters__modal-result .filters__modal-button--area {
+  display: none;
+}
+.filters__modal--area .filters__modal-result-category:has(.filters__modal-button--area) {
+  display: flex;
+}
+.filters__modal-button--volume {
+  background-color: rgb(255, 87.2, 87.2);
+}
+.filters__modal--volume .filters__modal-select > .filters__modal-button--volume {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--volume) .filters__modal-result .filters__modal-button--volume {
+  display: none;
+}
+.filters__modal--volume .filters__modal-result-category:has(.filters__modal-button--volume) {
+  display: flex;
+}
+.filters__modal-button--angle {
+  background-color: rgb(191.75, 191.75, 191.75);
+}
+.filters__modal--angle .filters__modal-select > .filters__modal-button--angle {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--angle) .filters__modal-result .filters__modal-button--angle {
+  display: none;
+}
+.filters__modal--angle .filters__modal-result-category:has(.filters__modal-button--angle) {
+  display: flex;
+}
+.filters__modal-button--acceleration {
+  background-color: rgb(0, 219.8, 0);
+}
+.filters__modal--acceleration .filters__modal-select > .filters__modal-button--acceleration {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--acceleration) .filters__modal-result .filters__modal-button--acceleration {
+  display: none;
+}
+.filters__modal--acceleration .filters__modal-result-category:has(.filters__modal-button--acceleration) {
+  display: flex;
+}
+.filters__modal-button--force {
+  background-color: rgb(251.727, 220.088, 40.073);
+}
+.filters__modal--force .filters__modal-select > .filters__modal-button--force {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--force) .filters__modal-result .filters__modal-button--force {
+  display: none;
+}
+.filters__modal--force .filters__modal-result-category:has(.filters__modal-button--force) {
+  display: flex;
+}
+.filters__modal--all .filters__modal-select > .filters__modal-button--all {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal--all .filters__modal-result-category {
+  display: flex;
+}
+.filters__scrim {
+  position: fixed;
+  inset: 0 0 0 0;
+  z-index: 5;
+}

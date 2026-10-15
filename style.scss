@@ -1,0 +1,538 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+
+//
+// Variables
+//
+
+$c-white:        white;
+$c-white--t: #fffa;
+$c-black:        #222;
+$c-black--t: #0002;
+$c-gray:         gray;
+$c-orange:     darkorange;
+$c-red:            tomato;
+$c-yellow:     yellow;
+$c-gold:         rgb(197, 168, 3);
+$c-green:        yellowgreen;
+$c-blue:         dodgerblue;
+$c-cyan:         darkcyan;
+$c-purple:     purple;
+$c-pink:         deeppink;
+$c-brown:        maroon;
+$c-shamrock: green;
+$c-gray--l:         lighten($c-gray,            25%);
+$c-orange--l:     lighten($c-orange,        13%);
+$c-red--l:            lighten($c-red,             18%);
+$c-yellow--l:     lighten($c-yellow,        18%);
+$c-gold--l:         lighten($c-gold,            18%);
+$c-green--l:        lighten($c-green,         18%);
+$c-shamrock--l: lighten($c-shamrock,    18%);
+$c-blue--l:         lighten($c-blue,            18%);
+$c-cyan--l:         lighten($c-cyan,            18%);
+$c-purple--l:     lighten($c-purple,        28%);
+$c-pink--l:         lighten($c-pink,            18%);
+$c-brown--l:        lighten($c-brown,         42%);
+
+$c-bg--l:                     $c-white;
+$c-bg--ll:                    $c-white--t;
+$c-bg-input:                $c-black--t;
+$c-bg-shadow:             $c-black--t;
+
+$c-text--d:                 $c-black;
+$c-text--l:                 $c-white;
+$c-text--ll:                $c-gray;
+
+$c-mass:                        $c-purple--l;
+$c-length:                    $c-red--l;
+$c-time:                        $c-cyan--l;
+$c-temperature:         $c-orange--l;
+$c-current:                 $c-blue--l;
+$c-amount:                    $c-green--l;
+$c-luminosity:            $c-yellow--l;
+$c-area:                        $c-pink--l;
+$c-volume:                    $c-brown--l;
+$c-angle:                     $c-gray--l;
+$c-force:                     $c-gold--l;
+$c-acceleration:        $c-shamrock--l;
+
+$c-mass--d:                 $c-purple;
+$c-length--d:             $c-red;
+$c-time--d:                 $c-cyan;
+$c-temperature--d:    $c-orange;
+$c-current--d:            $c-blue;
+$c-amount--d:             $c-green;
+$c-luminosity--d:     $c-yellow;
+$c-area--d:                 $c-pink;
+$c-volume--d:             $c-brown;
+$c-angle--d:                $c-gray;
+$c-force--d:                $c-gold;
+$c-acceleration--d: $c-shamrock;
+
+$f-family--header: "Lexend Deca", sans-serif;
+$f-family--body: Helvetica, sans-serif;
+$f-size--base: 16px;
+$f-size--sm: 0.875rem;
+$f-size--md: 1rem;
+$f-size--lg: 2rem;
+$f-size--xl: 3rem;
+
+$b-rad--sm: 0.5rem;
+$b-rad--md: 0.75rem;
+$b-rad--lg: 1rem;
+$b-size-sm: 1px;
+$b-size-md: 2px;
+$b-size-lg: 3px;
+
+$pad--xs: 0.25rem;
+$pad--sm: 0.5rem;
+$pad--md: 0.75rem;
+$pad--lg: 1rem;
+$pad--xl: 1.5rem;
+
+$mar--sm: 1rem;
+$mar--md: 2rem;
+$mar--lg: 3rem;
+
+$units-all: (
+    ( 'mass',                 $c-mass,                 $c-mass--d                 ),
+    ( 'length',             $c-length,             $c-length--d             ),
+    ( 'time',                 $c-time,                 $c-time--d                 ),
+    ( 'temperature',    $c-temperature,    $c-temperature--d    ),
+    ( 'current',            $c-current,            $c-current--d            ),
+    ( 'amount',             $c-amount,             $c-amount--d             ),
+    ( 'luminosity',     $c-luminosity,     $c-luminosity--d     ),
+    ( 'area',                 $c-area,                 $c-area--d                 ),
+    ( 'volume',             $c-volume,             $c-volume--d             ),
+    ( 'angle',                $c-angle,                $c-angle--d                ),
+    ( 'acceleration', $c-acceleration, $c-acceleration--d ),
+    ( 'force',                $c-force,                $c-force--d                )
+);
+
+@mixin outline() {
+    box-shadow:
+        0 0 0 2px $c-text--d,
+        0 0 0 2px $c-text--l inset;
+}
+
+@property --grad-from {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: $c-purple--l;
+}
+
+@property --grad-to {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: $c-purple;
+}
+
+
+//
+// Base elements
+//
+
+html {
+    font-size: $f-size--base;
+}
+
+body {
+    color: $c-text--l;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+body, input {
+    font-family: $f-family--body;
+    font-weight: 200;
+    color: $c-text--l;
+    font-size: $f-size--xl;
+}
+
+input,
+.input {
+    font-family: $f-family--header;
+    font-weight: 400;
+    display: inline-block;
+    background-color: $c-bg-input;
+    border: none;
+    border-radius: $b-rad--lg;
+    padding: $pad--lg $pad--xl;
+    text-align: center;
+    cursor: pointer;
+
+    &[type="number"] {
+        font-family: $f-family--body;
+        font-weight: 200;
+        text-align: right;
+        -moz-appearance: textfield;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: inset 0 $pad--sm $pad--lg $pad--sm $c-bg-shadow;
+    }
+}
+
+button {
+    padding: $pad--sm $pad--md;
+    border: none;
+    border-radius: $b-rad--sm;
+    font-size: $f-size--md;
+    text-transform: capitalize;
+    background-color: $c-bg--l;
+    cursor: pointer;
+}
+
+sup {
+    display: inline-block;
+    margin-top: -1em;
+}
+
+.app {
+    position: fixed;
+    inset: 0 0 0 0;
+    display: grid;
+    grid-template: 1fr 1fr 1fr / 100%;
+    align-items: center;
+    justify-items: center;
+
+    background: linear-gradient(135deg, var(--grad-from), var(--grad-to));
+    transition:
+        --grad-from 1s,
+        --grad-to 1s;
+
+    @each $name, $color-l, $color-d in $units-all {
+        &[data-from="#{$name}"] {
+            --grad-from: #{$color-l};
+        }
+
+        &[data-to="#{$name}"] {
+            --grad-to: #{$color-d};
+        }
+    }
+}
+
+
+//
+// Header
+//
+
+.header {
+    width: 100%;
+    max-width: 50rem;
+    align-self: start;
+    justify-self: start;
+    padding: $mar--md;
+    margin: 0 auto;
+    text-align: left;
+    font-size: $f-size--lg;
+    font-weight: 500;
+    font-family: $f-family--header;
+}
+
+
+//
+// Inputs
+//
+
+.inputs {
+    display: grid;
+    grid-template: 1fr auto 1fr / auto;
+    max-width: 100%;
+    width: 50rem;
+    padding: $pad--lg;
+    flex-direction: column;
+    gap: 2.25rem;
+
+    & > div {
+        position: relative;
+        display: flex;
+        gap: $pad--lg;
+        align-items: center;
+
+        &:first-child {
+            align-self: end;
+        }
+
+        &:last-child {
+            align-self: start;
+        }
+    }
+
+    &__amount {
+        &-input {
+            width: 18rem;
+        }
+    }
+
+    &__equal {
+        width: 100%;
+        text-align: center;
+    }
+
+    &__output {
+        padding: $pad--lg;
+        white-space: nowrap;
+        line-height: 0.75;
+        align-self: center;
+        font-size: $f-size--lg;
+
+        &-number {
+            font-size: $f-size--xl;
+        }
+
+        &--hide {
+            display: none;
+        }
+    }
+
+    &__to,
+    &__from {
+        width: 100%;
+        position: relative;
+
+        &-input {
+            position: absolute;
+            inset: 0 0 0 0;
+            opacity: 0;
+
+            &.open {
+                opacity: 1;
+            }
+        }
+
+        &-proxy {
+            width: calc(100% - #{ 2 * $pad--xl});
+            min-width: fit-content;
+            pointer-events: none;
+            text-transform: capitalize;
+        }
+
+        &:has(.open) &-proxy {
+            opacity: 0;
+        }
+
+        &-description {
+            position: absolute;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            display: none;
+            padding: $pad--lg $pad--xl;
+            border-radius: $b-rad--md;
+            text-align: left;
+            line-height: 2;
+            font-size: $f-size--md;
+            font-family: $f-family--body;
+            color: $c-text--d;
+            background: $c-bg--ll;
+
+            &--show {
+                display: block;
+            }
+        }
+    }
+
+    &__from-description {
+        bottom: calc(100% + 1rem);
+    }
+
+    &__to-description {
+        top: calc(100% + 1rem);
+    }
+
+    &__description--code {
+        display: inline-block;
+        padding: 0 $pad--sm;
+        margin: 0 $pad--xs;
+        border-radius: $b-rad--sm;
+        vertical-align: middle;
+        font-weight: 500;
+        font-size: $f-size--sm;
+        background-color: $c-bg--l;
+    }
+
+    &__help,
+    &__shuffle,
+    &__switch {
+        position: absolute;
+        left: calc(100% + #{$mar--md});
+
+        i {
+            font-size: 1.25rem;
+        }
+    }
+
+    &__format {
+        position: absolute;
+        right: calc(100% + #{$mar--sm});
+        
+        &--show {
+            opacity: 1;
+            pointer-events: all;
+        }
+    }
+
+    &__help {
+        top: -3.5rem;
+        
+        i {
+            font-weight: bold;
+        }
+    }
+
+    &__shuffle {
+        top: 3.5rem;
+    }
+
+    &__button {
+        white-space: nowrap;
+        aspect-ratio: 1 / 1;
+        color: $c-text--l;
+        background: $c-bg-input;
+        border-radius: 100%;
+        line-height: 0.5rem;
+        width: 3rem;
+        height: 3rem;
+        font-family: $f-family--header;
+        user-select: none;
+        cursor: pointer;
+        transition: opacity 0.5s;
+
+        &--hide {
+            opacity: 0;
+        }
+
+        sup {
+            padding-left: 0.125rem;
+            font-size: 0.625rem;
+            font-style: italic;
+        }
+
+        &:active {
+            box-shadow: inset 0 $pad--xs $pad--sm $pad--xs $c-bg-shadow;
+        }
+    }
+}
+
+
+//
+// Filters
+//
+
+.filters {
+    display: none;
+    position: absolute;
+    padding-bottom: $mar--md;
+
+    &--open {
+        display: block;
+    }
+
+    &--search &__modal-select,
+    &--search &__modal-result {
+        display: none;
+    }
+
+    &--search &__modal-search {
+        display: flex;
+    }
+
+    &__modal {
+        position: relative;
+        z-index: 10;
+        background-color: $c-bg--ll;
+        box-shadow: 0 $pad--lg $pad--xl 0 #0001;
+        padding: 2rem $pad--xl $pad--sm;
+        border-radius: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        margin-top: 1rem;
+        min-width: 20.75rem;
+        max-width: 100%;
+        backdrop-filter: blur(4px);
+
+        &-select {
+            display: flex;
+            flex-wrap: wrap;
+            gap: $pad--sm;
+            justify-content: center;
+        }
+
+        &-result {
+            margin: 0 0 1.5rem;
+
+            &-category {
+                display: none;
+                flex-wrap: wrap;
+                gap: $pad--sm;
+                
+                &-header {
+                    width: 100%;
+                    margin: 1.5rem 0 0.5rem;
+                    color: $c-text--d;
+                    text-align: left;
+                    font-weight: normal;
+                    font-size: $f-size--md;
+                    text-transform: capitalize;
+                    letter-spacing: 0.5px;
+                }
+            }
+        }
+
+        &-search {
+            display: none;
+            flex-wrap: wrap;
+            gap: $pad--sm;
+            margin: 0 0 1.5rem;
+
+            &-empty {
+                width: 100%;
+                text-align: center;
+                font-size: $f-size--md;
+                font-style: italic;
+                color: $c-text--l;
+            }
+        }
+
+        @each $name, $color in $units-all {
+            &-button--#{$name} {
+                background-color: $color;
+            }
+
+            &--#{$name} &-select > &-button--#{$name} {
+                @include outline;
+            }
+
+            &:not(&--all):not(&--#{$name}) &-result &-button--#{$name} {
+                display: none;
+            }
+
+            &--#{$name} &-result-category:has(&-button--#{$name}) {
+                display: flex;
+            }
+        }
+
+        &--all &-select > &-button--all {
+            @include outline;
+        }
+        
+        &--all &-result-category {
+            display: flex;
+        }
+    }
+
+    &__scrim {
+        position: fixed;
+        inset: 0 0 0 0;
+        z-index: 5;
+    }
+}
