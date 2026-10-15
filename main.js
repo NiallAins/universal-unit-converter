@@ -30,7 +30,7 @@ function csvToUnits(csv) {
             if (NEW_ROW.some(cell => cell !== '')) {
                 units.push([ c[0], ...NEW_ROW ]);
             }
-        })
+        });
     });
     units = units
         .map(u => ({
@@ -249,7 +249,7 @@ class Value {
                 .filter(u => u[1] > 0 && u[0] !== 'w')
                 .map(u => u[1] === 1 ? u[0] : u[0] + `<sup>${ u[1] }</sup>`)
                 .join('⋅')
-                .replace(/⋅?c/, ' light'),
+                .replace(/⋅?c/, ' light –'),
             unitPost = Object
                 .entries(units)
                 .filter(u => u[1] < 0)
@@ -405,8 +405,6 @@ function toggleFilters(target) {
     EL_FILTERS.classList.toggle('filters--open');
     EL_INPUT_FROM_DESC.classList.remove('inputs__from-description--show');
     EL_INPUT_TO_DESC.classList.remove('inputs__to-description--show');
-
-    console.log('hey', target);
     
     if (target) {
         currentActiveFilter = target;
@@ -594,6 +592,7 @@ function addArticle(str, capital, excludeStr) {
 //
 
 window.toggleFilters = toggleFilters;
+window.convert = convert;
 window.unitClick = unitClick;
 window.filterKey = filterKey;
 window.changeFormat = changeFormat;

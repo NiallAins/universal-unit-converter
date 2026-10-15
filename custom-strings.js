@@ -70,6 +70,7 @@ export default {
         'Shot (East Euro)':               'Shots (East Euro)',
         'Double Shot (East Euro)': 'Double Shots (East Euro)',
         'Foot per Second Squared':  'Feet per Second Squared',
+        'Metre per Second Squared':  'Metres per Second Squared',
         'Cubic Foot':                            'Cubic Feet',
         'Square Foot':                          'Square Feet',
         'Metric Foot':                          'Metric Feet',
