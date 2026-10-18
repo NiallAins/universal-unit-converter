@@ -17,7 +17,7 @@
     class="app"
 >
     <h1 class="header">
-        Convert Anything to Anything
+        Convert Anything
     </h1>
     <div class="inputs">
         <div>
@@ -127,10 +127,43 @@
             </div>
         </div>
     </div>
-    <div class="footer"></div>
+    <div
+        id="EL_FILTERS"
+        class="filters"
+    >
+        <div
+            id="EL_UNITS"
+            class="filters__modal"
+        >
+            <div class="filters__modal-select">
+                <div id="EL_FILTERS_BUTTONS"></div>
+                <button
+                    class="
+                        filters__modal-button
+                        filters__modal-button--all
+                    "
+                    onclick="EL_UNITS.classList.toggle('filters__modal--all')"
+                >
+                    All Units
+                </button>
+            </div>
+            <div
+                id="EL_FILTERS_RESULT"
+                class="filters__modal-result"
+            ></div>
+            <div
+                id="EL_FILTERS_SEARCH"
+                class="filters__modal-search"
+            ></div>
+        </div>
+        <div
+            class="filters__scrim"
+            onclick="toggleFilters()"
+        ></div>
+    </div>
 </div>
 
-<script src="./main.js" type="module"></script>
+<script src="./scripts/main.js" type="module"></script>
 
 </body>
 

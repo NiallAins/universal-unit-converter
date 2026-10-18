@@ -1,80 +1,105 @@
+@use 'sass:list' as *;
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
 
 //
 // Variables
 //
 
-$c-white:        white;
-$c-white--t: #fffa;
-$c-black:        #222;
-$c-black--t: #0002;
-$c-gray:         gray;
-$c-orange:     darkorange;
-$c-red:            tomato;
-$c-yellow:     yellow;
-$c-gold:         rgb(197, 168, 3);
-$c-green:        yellowgreen;
-$c-blue:         dodgerblue;
-$c-cyan:         darkcyan;
-$c-purple:     purple;
-$c-pink:         deeppink;
-$c-brown:        maroon;
-$c-shamrock: green;
-$c-gray--l:         lighten($c-gray,            25%);
-$c-orange--l:     lighten($c-orange,        13%);
-$c-red--l:            lighten($c-red,             18%);
-$c-yellow--l:     lighten($c-yellow,        18%);
-$c-gold--l:         lighten($c-gold,            18%);
-$c-green--l:        lighten($c-green,         18%);
-$c-shamrock--l: lighten($c-shamrock,    18%);
-$c-blue--l:         lighten($c-blue,            18%);
-$c-cyan--l:         lighten($c-cyan,            18%);
-$c-purple--l:     lighten($c-purple,        28%);
-$c-pink--l:         lighten($c-pink,            18%);
-$c-brown--l:        lighten($c-brown,         42%);
+// Color
 
-$c-bg--l:                     $c-white;
-$c-bg--ll:                    $c-white--t;
-$c-bg-input:                $c-black--t;
-$c-bg-shadow:             $c-black--t;
+$c-white:       white;
+$c-white--t:    #fffa;
+$c-black:       #222;
+$c-black--t:    #0002;
+$c-gray:        gray;
+$c-orange:      darkorange;
+$c-red:         tomato;
+$c-yellow:      yellow;
+$c-gold:        rgb(197, 168, 3);
+$c-green:       yellowgreen;
+$c-blue:        dodgerblue;
+$c-cyan:        darkcyan;
+$c-purple:      purple;
+$c-pink:        deeppink;
+$c-brown:       maroon;
+$c-shamrock:    green;
+$c-gray--l:     lighten($c-gray,     25%);
+$c-orange--l:   lighten($c-orange,   13%);
+$c-red--l:      lighten($c-red,      18%);
+$c-yellow--l:   lighten($c-yellow,   18%);
+$c-gold--l:     lighten($c-gold,     18%);
+$c-green--l:    lighten($c-green,    18%);
+$c-shamrock--l: lighten($c-shamrock, 18%);
+$c-blue--l:     lighten($c-blue,     18%);
+$c-cyan--l:     lighten($c-cyan,     18%);
+$c-purple--l:   lighten($c-purple,   28%);
+$c-pink--l:     lighten($c-pink,     18%);
+$c-brown--l:    lighten($c-brown,    42%);
 
-$c-text--d:                 $c-black;
-$c-text--l:                 $c-white;
-$c-text--ll:                $c-gray;
+$c-bg--l:     $c-white;
+$c-bg--ll:    $c-white--t;
+$c-bg-input:  $c-black--t;
+$c-bg-shadow: $c-black--t;
 
-$c-mass:                        $c-purple--l;
-$c-length:                    $c-red--l;
-$c-time:                        $c-cyan--l;
-$c-temperature:         $c-orange--l;
-$c-current:                 $c-blue--l;
-$c-amount:                    $c-green--l;
-$c-luminosity:            $c-yellow--l;
-$c-area:                        $c-pink--l;
-$c-volume:                    $c-brown--l;
-$c-angle:                     $c-gray--l;
-$c-force:                     $c-gold--l;
-$c-acceleration:        $c-shamrock--l;
+$c-text--d:  $c-black;
+$c-text--l:  $c-white;
+$c-text--ll: $c-gray;
 
-$c-mass--d:                 $c-purple;
-$c-length--d:             $c-red;
-$c-time--d:                 $c-cyan;
-$c-temperature--d:    $c-orange;
-$c-current--d:            $c-blue;
-$c-amount--d:             $c-green;
-$c-luminosity--d:     $c-yellow;
-$c-area--d:                 $c-pink;
-$c-volume--d:             $c-brown;
-$c-angle--d:                $c-gray;
-$c-force--d:                $c-gold;
+$c-mass:          $c-purple--l;
+$c-length:        $c-red--l;
+$c-time:          $c-cyan--l;
+$c-temperature:   $c-orange--l;
+$c-current:       $c-blue--l;
+$c-amount:        $c-green--l;
+$c-luminosity:    $c-yellow--l;
+$c-area:          $c-pink--l;
+$c-volume:        $c-brown--l;
+$c-angle:         $c-gray--l;
+$c-force:         $c-gold--l;
+$c-acceleration:  $c-shamrock--l;
+
+$c-mass--d:         $c-purple;
+$c-length--d:       $c-red;
+$c-time--d:         $c-cyan;
+$c-temperature--d:  $c-orange;
+$c-current--d:      $c-blue;
+$c-amount--d:       $c-green;
+$c-luminosity--d:   $c-yellow;
+$c-area--d:         $c-pink;
+$c-volume--d:       $c-brown;
+$c-angle--d:        $c-gray;
+$c-force--d:        $c-gold;
 $c-acceleration--d: $c-shamrock;
 
+// Order to match eDomains enum
+$c-domains: (
+    ( $c-mass,         $c-mass--d         ),
+    ( $c-length,       $c-length--d       ),
+    ( $c-time,         $c-time--d         ),
+    ( $c-temperature,  $c-temperature--d  ),
+    ( $c-current,      $c-current--d      ),
+    ( $c-amount,       $c-amount--d       ),
+    ( $c-luminosity,   $c-luminosity--d   ),
+    ( $c-area,         $c-area--d         ),
+    ( $c-volume,       $c-volume--d       ),
+    ( $c-angle,        $c-angle--d        ),
+    ( $c-acceleration, $c-acceleration--d ),
+    ( $c-force,        $c-force--d        )
+);
+
+
+// Typography
+
 $f-family--header: "Lexend Deca", sans-serif;
-$f-family--body: Helvetica, sans-serif;
-$f-size--base: 16px;
-$f-size--sm: 0.875rem;
-$f-size--md: 1rem;
-$f-size--lg: 2rem;
-$f-size--xl: 3rem;
+$f-family--body:   Helvetica, sans-serif;
+$f-size--base:     16px;
+$f-size--sm:       0.875rem;
+$f-size--md:       1rem;
+$f-size--lg:       2rem;
+$f-size--xl:       3rem;
+
+
+// Dimensions
 
 $b-rad--sm: 0.5rem;
 $b-rad--md: 0.75rem;
@@ -93,26 +118,14 @@ $mar--sm: 1rem;
 $mar--md: 2rem;
 $mar--lg: 3rem;
 
-$units-all: (
-    ( 'mass',                 $c-mass,                 $c-mass--d                 ),
-    ( 'length',             $c-length,             $c-length--d             ),
-    ( 'time',                 $c-time,                 $c-time--d                 ),
-    ( 'temperature',    $c-temperature,    $c-temperature--d    ),
-    ( 'current',            $c-current,            $c-current--d            ),
-    ( 'amount',             $c-amount,             $c-amount--d             ),
-    ( 'luminosity',     $c-luminosity,     $c-luminosity--d     ),
-    ( 'area',                 $c-area,                 $c-area--d                 ),
-    ( 'volume',             $c-volume,             $c-volume--d             ),
-    ( 'angle',                $c-angle,                $c-angle--d                ),
-    ( 'acceleration', $c-acceleration, $c-acceleration--d ),
-    ( 'force',                $c-force,                $c-force--d                )
-);
+$z-description: 10;
+$z-button: 20;
+$z-modal-scrim: 30;
+$z-modal: 40;
 
-@mixin outline() {
-    box-shadow:
-        0 0 0 2px $c-text--d,
-        0 0 0 2px $c-text--l inset;
-}
+$breakpoint: 980px;
+
+// Css variables
 
 @property --grad-from {
     syntax: "<color>";
@@ -124,6 +137,37 @@ $units-all: (
     syntax: "<color>";
     inherits: false;
     initial-value: $c-purple;
+}
+
+:root {
+    @for $i from 0 to length($c-domains) {
+        $domain: nth($c-domains, $i + 1);
+        
+        &[data-from="#{ $i }"] {
+            --grad-from: #{ nth($domain, 1) };
+        }
+
+        &[data-to="#{ $i }"] {
+            --grad-to: #{ nth($domain, 2)  };
+        }
+    }
+}
+
+
+//
+// Mixins
+//
+
+@mixin outline() {
+    box-shadow:
+        0 0 0 2px $c-text--d,
+        0 0 0 2px $c-text--l inset;
+}
+
+@mixin small-viewport() {
+    @media (max-width: $breakpoint) {
+        @content;
+    }
 }
 
 
@@ -207,16 +251,6 @@ sup {
     transition:
         --grad-from 1s,
         --grad-to 1s;
-
-    @each $name, $color-l, $color-d in $units-all {
-        &[data-from="#{$name}"] {
-            --grad-from: #{$color-l};
-        }
-
-        &[data-to="#{$name}"] {
-            --grad-to: #{$color-d};
-        }
-    }
 }
 
 
@@ -243,11 +277,14 @@ sup {
 //
 
 .inputs {
+    $pad-left: $pad--lg + 5rem;
+    $pad-right: $pad--lg + 6rem;
+
     display: grid;
     grid-template: 1fr auto 1fr / auto;
-    max-width: 100%;
+    max-width: calc(100% - #{ $pad-left + $pad-right });
     width: 50rem;
-    padding: $pad--lg;
+    padding: $pad--lg $pad-right $pad--lg $pad-left;
     flex-direction: column;
     gap: 2.25rem;
 
@@ -323,7 +360,7 @@ sup {
             position: absolute;
             left: 0;
             right: 0;
-            z-index: 10;
+            z-index: $z-description;
             display: none;
             padding: $pad--lg $pad--xl;
             border-radius: $b-rad--md;
@@ -363,7 +400,7 @@ sup {
     &__shuffle,
     &__switch {
         position: absolute;
-        left: calc(100% + #{$mar--md});
+        left: calc(100% + #{ $mar--md });
 
         i {
             font-size: 1.25rem;
@@ -372,7 +409,7 @@ sup {
 
     &__format {
         position: absolute;
-        right: calc(100% + #{$mar--sm});
+        right: calc(100% + #{ $mar--sm });
         
         &--show {
             opacity: 1;
@@ -393,6 +430,8 @@ sup {
     }
 
     &__button {
+        position: relative;
+        z-index: $z-button;
         white-space: nowrap;
         aspect-ratio: 1 / 1;
         color: $c-text--l;
@@ -447,13 +486,12 @@ sup {
 
     &__modal {
         position: relative;
-        z-index: 10;
+        z-index: $z-modal;
         background-color: $c-bg--ll;
         box-shadow: 0 $pad--lg $pad--xl 0 #0001;
         padding: 2rem $pad--xl $pad--sm;
         border-radius: 1rem;
         display: flex;
-        flex-wrap: wrap;
         flex-direction: column;
         margin-top: 1rem;
         min-width: 20.75rem;
@@ -503,20 +541,20 @@ sup {
             }
         }
 
-        @each $name, $color in $units-all {
-            &-button--#{$name} {
-                background-color: $color;
+        @for $i from 0 to length($c-domains) {
+            &-button--#{ $i } {
+                background-color: nth(nth($c-domains, $i + 1), 1);
             }
 
-            &--#{$name} &-select > &-button--#{$name} {
+            &--#{ $i } &-select > &-button--#{ $i } {
                 @include outline;
             }
 
-            &:not(&--all):not(&--#{$name}) &-result &-button--#{$name} {
+            &:not(&--all):not(&--#{ $i }) &-result &-button--#{ $i } {
                 display: none;
             }
 
-            &--#{$name} &-result-category:has(&-button--#{$name}) {
+            &--#{ $i } &-result-category:has(&-button--#{ $i }) {
                 display: flex;
             }
         }
@@ -533,6 +571,73 @@ sup {
     &__scrim {
         position: fixed;
         inset: 0 0 0 0;
-        z-index: 5;
+        z-index: $z-modal-scrim;
+    }
+}
+
+
+//
+// Small viewport
+//
+
+@include small-viewport {
+    body,
+    .input,
+    .inputs__output-number {
+        font-size: $f-size--lg;
+    }
+
+    .inputs {
+        $pad-left: $pad--lg;
+        $pad-right: $pad--lg;
+
+        max-width: calc(100% - #{ $pad-left + $pad-right });
+        padding: $pad--lg $pad-right $pad--lg $pad-left;
+
+        & > div {
+            flex-direction: column;
+        }
+
+        &__amount-input[type="number"] {
+            text-align: center;
+        }
+
+        &__equal {
+            padding-top: 2rem;
+        }
+
+        &__help,
+        &__format {
+            left: 0;
+        }
+
+        &__switch,
+        &__shuffle {
+            left: calc(100% - 3rem);
+        }
+
+        &__help,
+        &__switch {
+            top: -0.75rem
+        }
+
+        &__format,
+        &__shuffle {
+            top: 4rem;
+        }
+    }
+
+    .filters {
+        &__modal {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-height: 80vh;
+            min-width: unset !important;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+            overflow-y: auto;
+        }
     }
 }
