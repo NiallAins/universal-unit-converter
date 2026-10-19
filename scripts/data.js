@@ -1,23 +1,9 @@
 import UNITS_CSV from './units.csv.js';
-import { eDomain } from './types.js';
+import { eDomain, eCategory } from './types.js';
 //
 // Private readonly variables
 //
-const _KEY_NON_ANGLO = 'non-anglophone', _CATEGORY_ORDER = [
-    'metric',
-    'imperial',
-    'us',
-    'troy',
-    'scientific',
-    'navigational',
-    _KEY_NON_ANGLO,
-    'paper',
-    'paper us',
-    'typographic',
-    'archaic typographic ',
-    'informal',
-    'archaic'
-], _STRINGS_SINGLE = {
+const _STRINGS_SINGLE = {
     'Kelvin': 'Degree Kelvin',
     'Rankine': 'Degree Rankine',
     'Fahrenheit': 'Degree Fahrenheit',
@@ -26,7 +12,7 @@ const _KEY_NON_ANGLO = 'non-anglophone', _CATEGORY_ORDER = [
     'Leiden': 'Degree Leiden',
     'Réaumur': 'Degree Réaumur',
     'Rømer': 'Degree Rømer',
-    'Newton': 'Degree Newton',
+    'Newton degree': 'Degree Newton',
     'Wedgwood': 'Degree Wedgwood',
     'A Series 0': 'A0',
     'A Series 1': 'A1',
@@ -72,7 +58,7 @@ const _KEY_NON_ANGLO = 'non-anglophone', _CATEGORY_ORDER = [
     'Leiden': 'Degrees Leiden',
     'Réaumur': 'Degrees Réaumur',
     'Rømer': 'Degrees Rømer',
-    'Newton': 'Degrees Newton',
+    'Newton degree': 'Degrees Newton',
     'Wedgwood': 'Degrees Wedgwood',
     'Acre-Foot': 'Acre-Feet',
     'Electron Radius': 'Electron Radii',
@@ -218,84 +204,89 @@ export const SI_PREFIX = [
     'Yotta',
     'Ronna',
     'Quetta'
-], UNITS = _unitsCsvToJson(UNITS_CSV), DOMAINS = {
-    [eDomain.Time]: { name: 'Second', symbol: 's', scale: 1, siUnits: { m: 0, s: 1, kg: 0 } },
-    [eDomain.Length]: { name: 'Metre', symbol: 'm', scale: 1, siUnits: { m: 1, s: 0, kg: 0 } },
-    [eDomain.Area]: { scale: 1, siUnits: { m: 2, s: 0, kg: 0 } },
-    [eDomain.Volume]: { scale: 1, siUnits: { m: 3, s: 0, kg: 0 } },
-    [eDomain.Mass]: { name: 'Kilogram', symbol: 'kg', scale: 0.001, siUnits: { m: 0, s: 0, kg: 1 } },
-    [eDomain.Acceleration]: { scale: 1, siUnits: { m: 1, s: -2, kg: 0 } },
+], CATEGORY_LABELS = {
+    [eCategory.Metric]: 'Metric',
+    [eCategory.Imperial]: 'Imperial',
+    [eCategory.Us]: 'American',
+    [eCategory.Troy]: 'Troy',
+    [eCategory.Scientific]: 'Scientific',
+    [eCategory.Navigational]: 'Navigational',
+    [eCategory.NonAnglo]: 'Non-Anglophone',
+    [eCategory.Paper]: 'Paper',
+    [eCategory.PaperUs]: 'American Paper',
+    [eCategory.Typo]: 'Typographic',
+    [eCategory.ArchaicTypo]: 'Archaic Typographic',
+    [eCategory.Informal]: 'Informal',
+    [eCategory.Archaic]: 'Archaic'
+}, UNITS = _unitsCsvToJson(UNITS_CSV), DOMAINS = {
+    [eDomain.Time]: { name: 'Second', symbol: 's', scale: 1, siUnits: { s: 1 } },
+    [eDomain.Length]: { name: 'Metre', symbol: 'm', scale: 1, siUnits: { m: 1 } },
+    [eDomain.Area]: { scale: 1, siUnits: { m: 2 } },
+    [eDomain.Volume]: { scale: 1, siUnits: { m: 3 } },
+    [eDomain.Mass]: { name: 'Kilogram', symbol: 'kg', scale: 0.001, siUnits: { kg: 1 } },
+    [eDomain.Speed]: { scale: 1, siUnits: { m: 1, s: -1 } },
+    [eDomain.Acceleration]: { scale: 1, siUnits: { m: 1, s: -2 } },
     [eDomain.Force]: { scale: 1, siUnits: { m: 1, s: -2, kg: 1 } },
     [eDomain.Temperature]: { name: 'Kelvin', symbol: 'K', scale: 1.380649e-23, siUnits: { m: 2, s: -2, kg: 1 } },
-    [eDomain.Angle]: { scale: 1, siUnits: { m: 0, s: 0, kg: 0 } },
-}, CATEGORIES = Array
-    .from(new Set(UNITS.map(u => u.category)))
-    .sort((a, b) => _CATEGORY_ORDER.indexOf(a) - _CATEGORY_ORDER.indexOf(b));
+    [eDomain.Angle]: { scale: 1, siUnits: {} },
+    [eDomain.Current]: { scale: 1.602176634e-19, siUnits: { s: -1, e: 1 } },
+    [eDomain.Amount]: { scale: 1, siUnits: {} },
+    [eDomain.Luminosity]: { scale: 0.00146412884, siUnits: { m: 2, s: 1, kg: 1, r: -2 } },
+};
 //
 // Private functions
 //
 function _unitsCsvToJson(csv) {
-    //
-    // Structure of units.csv
-    //
-    //   Row 0:   Domain headers
-    //   Row 2+:  Unit data
-    //
-    //   Col 0, 1, 2:              SI Prefix name, symbol, scale
-    //   Col 6n + (4, 5, 6, 7, 8): Unit name, category, symbol, derivation, scale
-    //     where n = Domain index
-    //
+    const DOMAIN_HEADER_ROW = 0, COLS_PER_DOMAIN = 6, UNITS_ROW_START = 2;
     // Get rows and cols (exclude empty rows)
     const ROWS = csv
         .split('\n')
         .filter(row => !row.match(/^,*$/))
-        .map(row => row
-        .split(',')
-        .filter((_, col) => col >= 4));
+        .map(row => row.split(',')), ROW_COUNT = ROWS.length, COL_COUNT = ROWS[0].length;
     // Get domain headers
-    const COLS = ROWS[0]
-        .map((content, colIndex) => [content, colIndex])
-        .filter(col => col[0] !== '');
+    const DOMAINS = ROWS[DOMAIN_HEADER_ROW]
+        .filter(col => col !== '')
+        .map(row => eDomain[row]);
     // Get units
     const UNIT_ARR = [];
-    COLS.forEach((col, ci) => {
-        ROWS
-            .slice(2)
-            .forEach(row => {
-            const UNIT_CELLS = COLS[ci + 1]
-                ? row.slice(col[1], COLS[ci + 1][1] - 1)
-                : row.slice(col[1]);
-            if (UNIT_CELLS.some(cell => cell !== '')) {
-                UNIT_ARR.push([col[0], ...UNIT_CELLS]);
+    for (let c = 0, d = 0; c < COL_COUNT; c += COLS_PER_DOMAIN, d += 1) {
+        for (let r = UNITS_ROW_START; r < ROW_COUNT; r++) {
+            const UNIT_CELLS = ROWS[r].slice(c, c + COLS_PER_DOMAIN);
+            if (UNIT_CELLS.some(cell => cell)) {
+                UNIT_ARR.push([DOMAINS[d], UNIT_CELLS]);
             }
-        });
-    });
+        }
+    }
+    // Unit data to Json
     return UNIT_ARR
         .map(u => {
-        const name = u[1], domain = eDomain[u[0]];
+        const domain = u[0], [name, categoryLabel, symbol, description, scale, offset] = u[1], category = eCategory[categoryLabel];
         return {
             name,
             domain,
-            symbol: u[3] && u[3] !== '-' ? u[3] : '',
-            description: u[4],
-            scale: parseFloat(u[5]),
-            offset: parseFloat(u[6]) || 0,
-            category: u[2],
-            searchString: (u[1] + u[3]).toLowerCase().replace(/[^a-z0-9]/g, ''),
+            symbol,
+            description,
+            scale: parseFloat(scale),
+            offset: parseFloat(offset) || 0,
+            invert: offset === 'invert',
+            category,
+            searchString: (name +
+                symbol +
+                (name.match(/re$/) ? name.replace(/re$/, 'er') : '')).toLowerCase().replace(/[^a-z0-9]/g, ''),
             string: [
-                _STRINGS_SINGLE[u[1]] || u[1],
-                _STRINGS_PLURAL[u[1]] === ''
-                    ? (_STRINGS_SINGLE[u[1]] || u[1])
-                    : _STRINGS_PLURAL[u[1]] || (u[2] === _KEY_NON_ANGLO
-                        ? u[1]
-                        : u[1].match(/e?y($| \()/)
-                            ? u[1].replace(/e?y($| \()/, 'ies$1')
-                            : u[1].match(/[xs]($| \()/)
-                                ? u[1].replace(/([xs])($| \()/, '$1es$2')
-                                : (u[1] + 's').replace(/ \((.*)s/, 's ($1'))
+                _STRINGS_SINGLE[name] || name,
+                _STRINGS_PLURAL[name] === ''
+                    ? (_STRINGS_SINGLE[name] || name)
+                    : _STRINGS_PLURAL[name] || (category === eCategory.NonAnglo
+                        ? name
+                        : name.match(/e?y($| \()/)
+                            ? name.replace(/e?y($| \()/, 'ies$1')
+                            : name.match(/[xs]($| \()/)
+                                ? name.replace(/([xs])($| \()/, '$1es$2')
+                                : (name + 's').replace(/ \((.*)s/, 's ($1'))
             ],
             siPrepend: domain === eDomain.Temperature ||
-                (domain === eDomain.Area && !u[0].match(/^[a-z]{2}[^ ]*$/i)) ||
+                (domain === eDomain.Area && !name.match(/^[a-z]{2}[^ ]*$/i)) ||
                 _STRINGS_ALLOW_SI.indexOf(name) > -1
         };
     })

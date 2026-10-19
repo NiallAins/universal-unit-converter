@@ -4,9 +4,9 @@ import { Value } from './Value.js';
 // Conversions
 //
 export function convert(amount, from, to) {
-    const FROM_VALUE = new Value(amount, from), TO_VALUE = new Value(1, to, true), CONVERT_KG = from.domain === eDomain.Mass || to.domain === eDomain.Mass;
+    const FROM_VALUE = new Value(from.invert ? 1 / amount : amount, from), TO_VALUE = new Value(1, to, true), CONVERT_KG = from.domain === eDomain.Mass || to.domain === eDomain.Mass;
     if ((from.domain === eDomain.Angle || to.domain === eDomain.Angle) &&
-        !(from.domain === eDomain.Angle && to.domain === eDomain.Angle)) {
+        (from.domain !== eDomain.Angle || to.domain !== eDomain.Angle)) {
         TO_VALUE.baseScale =
             from.domain === eDomain.Angle
                 ? Math.tan(FROM_VALUE.baseScale)
@@ -18,6 +18,9 @@ export function convert(amount, from, to) {
     else {
         TO_VALUE.divideInto(FROM_VALUE);
         TO_VALUE.baseScale -= TO_VALUE.inputUnit.offset;
+    }
+    if (to.invert) {
+        TO_VALUE.baseScale = 1 / TO_VALUE.baseScale;
     }
     return [
         FROM_VALUE,

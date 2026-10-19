@@ -9,77 +9,83 @@
   inherits: false;
   initial-value: purple;
 }
-:root[data-from="0"] {
-  --grad-from: rgb(255, 15.8, 255);
-}
-:root[data-to="0"] {
-  --grad-to: purple;
-}
-:root[data-from="1"] {
-  --grad-from: rgb(255, 176.8304347826, 162.8);
-}
-:root[data-to="1"] {
-  --grad-to: tomato;
-}
-:root[data-from="2"] {
+.app[data-from="0"] {
   --grad-from: rgb(0, 230.8, 230.8);
 }
-:root[data-to="2"] {
+.app[data-to="0"] {
   --grad-to: darkcyan;
 }
-:root[data-from="3"] {
-  --grad-from: rgb(255, 169.9, 66.3);
+.app[data-from="1"] {
+  --grad-from: rgb(255, 176.8304347826, 162.8);
 }
-:root[data-to="3"] {
-  --grad-to: darkorange;
+.app[data-to="1"] {
+  --grad-to: tomato;
 }
-:root[data-from="4"] {
-  --grad-from: rgb(121.8, 189.288, 255);
-}
-:root[data-to="4"] {
-  --grad-to: dodgerblue;
-}
-:root[data-from="5"] {
-  --grad-from: rgb(190.36, 223, 123.8);
-}
-:root[data-to="5"] {
-  --grad-to: yellowgreen;
-}
-:root[data-from="6"] {
-  --grad-from: rgb(255, 255, 91.8);
-}
-:root[data-to="6"] {
-  --grad-to: yellow;
-}
-:root[data-from="7"] {
+.app[data-from="2"] {
   --grad-from: rgb(255, 111.8, 189.1889361702);
 }
-:root[data-to="7"] {
+.app[data-to="2"] {
   --grad-to: deeppink;
 }
-:root[data-from="8"] {
+.app[data-from="3"] {
   --grad-from: rgb(255, 87.2, 87.2);
 }
-:root[data-to="8"] {
+.app[data-to="3"] {
   --grad-to: maroon;
 }
-:root[data-from="9"] {
-  --grad-from: rgb(191.75, 191.75, 191.75);
+.app[data-from="4"] {
+  --grad-from: rgb(255, 15.8, 255);
 }
-:root[data-to="9"] {
-  --grad-to: gray;
+.app[data-to="4"] {
+  --grad-to: purple;
 }
-:root[data-from="10"] {
+.app[data-from="5"] {
+  --grad-from: rgb(190.36, 223, 123.8);
+}
+.app[data-to="5"] {
+  --grad-to: yellowgreen;
+}
+.app[data-from="6"] {
   --grad-from: rgb(0, 219.8, 0);
 }
-:root[data-to="10"] {
+.app[data-to="6"] {
   --grad-to: green;
 }
-:root[data-from="11"] {
+.app[data-from="7"] {
   --grad-from: rgb(251.727, 220.088, 40.073);
 }
-:root[data-to="11"] {
+.app[data-to="7"] {
   --grad-to: rgb(197, 168, 3);
+}
+.app[data-from="8"] {
+  --grad-from: rgb(255, 169.9, 66.3);
+}
+.app[data-to="8"] {
+  --grad-to: darkorange;
+}
+.app[data-from="9"] {
+  --grad-from: rgb(191.75, 191.75, 191.75);
+}
+.app[data-to="9"] {
+  --grad-to: gray;
+}
+.app[data-from="10"] {
+  --grad-from: rgb(121.8, 189.288, 255);
+}
+.app[data-to="10"] {
+  --grad-to: dodgerblue;
+}
+.app[data-from="11"] {
+  --grad-from: rgb(141.1, 141.1, 141.1);
+}
+.app[data-to="11"] {
+  --grad-to: #222;
+}
+.app[data-from="12"] {
+  --grad-from: rgb(255, 255, 91.8);
+}
+.app[data-to="12"] {
+  --grad-to: yellow;
 }
 
 html {
@@ -339,7 +345,7 @@ sup {
   position: relative;
   z-index: 40;
   background-color: rgba(255, 255, 255, 0.6666666667);
-  box-shadow: 0 1rem 1.5rem 0 rgba(0, 0, 0, 0.0666666667);
+  box-shadow: 0 1rem 1.5rem 0 rgba(0, 0, 0, 0.1333333333);
   padding: 2rem 1.5rem 0.5rem;
   border-radius: 1rem;
   display: flex;
@@ -354,6 +360,9 @@ sup {
   flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: center;
+}
+.filters__modal-select-container {
+  display: contents;
 }
 .filters__modal-result {
   margin: 0 0 1.5rem;
@@ -387,9 +396,9 @@ sup {
   color: white;
 }
 .filters__modal-button--0 {
-  background-color: rgb(255, 15.8, 255);
+  background-color: rgb(0, 230.8, 230.8);
 }
-.filters__modal--0 .filters__modal-select > .filters__modal-button--0 {
+.filters__modal--0 .filters__modal-select-container > .filters__modal-button--0 {
   box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
 }
 .filters__modal:not(.filters__modal--all):not(.filters__modal--0) .filters__modal-result .filters__modal-button--0 {
@@ -401,7 +410,7 @@ sup {
 .filters__modal-button--1 {
   background-color: rgb(255, 176.8304347826, 162.8);
 }
-.filters__modal--1 .filters__modal-select > .filters__modal-button--1 {
+.filters__modal--1 .filters__modal-select-container > .filters__modal-button--1 {
   box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
 }
 .filters__modal:not(.filters__modal--all):not(.filters__modal--1) .filters__modal-result .filters__modal-button--1 {
@@ -411,9 +420,9 @@ sup {
   display: flex;
 }
 .filters__modal-button--2 {
-  background-color: rgb(0, 230.8, 230.8);
+  background-color: rgb(255, 111.8, 189.1889361702);
 }
-.filters__modal--2 .filters__modal-select > .filters__modal-button--2 {
+.filters__modal--2 .filters__modal-select-container > .filters__modal-button--2 {
   box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
 }
 .filters__modal:not(.filters__modal--all):not(.filters__modal--2) .filters__modal-result .filters__modal-button--2 {
@@ -423,9 +432,9 @@ sup {
   display: flex;
 }
 .filters__modal-button--3 {
-  background-color: rgb(255, 169.9, 66.3);
+  background-color: rgb(255, 87.2, 87.2);
 }
-.filters__modal--3 .filters__modal-select > .filters__modal-button--3 {
+.filters__modal--3 .filters__modal-select-container > .filters__modal-button--3 {
   box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
 }
 .filters__modal:not(.filters__modal--all):not(.filters__modal--3) .filters__modal-result .filters__modal-button--3 {
@@ -435,9 +444,9 @@ sup {
   display: flex;
 }
 .filters__modal-button--4 {
-  background-color: rgb(121.8, 189.288, 255);
+  background-color: rgb(255, 15.8, 255);
 }
-.filters__modal--4 .filters__modal-select > .filters__modal-button--4 {
+.filters__modal--4 .filters__modal-select-container > .filters__modal-button--4 {
   box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
 }
 .filters__modal:not(.filters__modal--all):not(.filters__modal--4) .filters__modal-result .filters__modal-button--4 {
@@ -449,7 +458,7 @@ sup {
 .filters__modal-button--5 {
   background-color: rgb(190.36, 223, 123.8);
 }
-.filters__modal--5 .filters__modal-select > .filters__modal-button--5 {
+.filters__modal--5 .filters__modal-select-container > .filters__modal-button--5 {
   box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
 }
 .filters__modal:not(.filters__modal--all):not(.filters__modal--5) .filters__modal-result .filters__modal-button--5 {
@@ -459,9 +468,9 @@ sup {
   display: flex;
 }
 .filters__modal-button--6 {
-  background-color: rgb(255, 255, 91.8);
+  background-color: rgb(0, 219.8, 0);
 }
-.filters__modal--6 .filters__modal-select > .filters__modal-button--6 {
+.filters__modal--6 .filters__modal-select-container > .filters__modal-button--6 {
   box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
 }
 .filters__modal:not(.filters__modal--all):not(.filters__modal--6) .filters__modal-result .filters__modal-button--6 {
@@ -471,9 +480,9 @@ sup {
   display: flex;
 }
 .filters__modal-button--7 {
-  background-color: rgb(255, 111.8, 189.1889361702);
+  background-color: rgb(251.727, 220.088, 40.073);
 }
-.filters__modal--7 .filters__modal-select > .filters__modal-button--7 {
+.filters__modal--7 .filters__modal-select-container > .filters__modal-button--7 {
   box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
 }
 .filters__modal:not(.filters__modal--all):not(.filters__modal--7) .filters__modal-result .filters__modal-button--7 {
@@ -483,9 +492,9 @@ sup {
   display: flex;
 }
 .filters__modal-button--8 {
-  background-color: rgb(255, 87.2, 87.2);
+  background-color: rgb(255, 169.9, 66.3);
 }
-.filters__modal--8 .filters__modal-select > .filters__modal-button--8 {
+.filters__modal--8 .filters__modal-select-container > .filters__modal-button--8 {
   box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
 }
 .filters__modal:not(.filters__modal--all):not(.filters__modal--8) .filters__modal-result .filters__modal-button--8 {
@@ -497,7 +506,7 @@ sup {
 .filters__modal-button--9 {
   background-color: rgb(191.75, 191.75, 191.75);
 }
-.filters__modal--9 .filters__modal-select > .filters__modal-button--9 {
+.filters__modal--9 .filters__modal-select-container > .filters__modal-button--9 {
   box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
 }
 .filters__modal:not(.filters__modal--all):not(.filters__modal--9) .filters__modal-result .filters__modal-button--9 {
@@ -507,9 +516,9 @@ sup {
   display: flex;
 }
 .filters__modal-button--10 {
-  background-color: rgb(0, 219.8, 0);
+  background-color: rgb(121.8, 189.288, 255);
 }
-.filters__modal--10 .filters__modal-select > .filters__modal-button--10 {
+.filters__modal--10 .filters__modal-select-container > .filters__modal-button--10 {
   box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
 }
 .filters__modal:not(.filters__modal--all):not(.filters__modal--10) .filters__modal-result .filters__modal-button--10 {
@@ -519,15 +528,27 @@ sup {
   display: flex;
 }
 .filters__modal-button--11 {
-  background-color: rgb(251.727, 220.088, 40.073);
+  background-color: rgb(141.1, 141.1, 141.1);
 }
-.filters__modal--11 .filters__modal-select > .filters__modal-button--11 {
+.filters__modal--11 .filters__modal-select-container > .filters__modal-button--11 {
   box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
 }
 .filters__modal:not(.filters__modal--all):not(.filters__modal--11) .filters__modal-result .filters__modal-button--11 {
   display: none;
 }
 .filters__modal--11 .filters__modal-result-category:has(.filters__modal-button--11) {
+  display: flex;
+}
+.filters__modal-button--12 {
+  background-color: rgb(255, 255, 91.8);
+}
+.filters__modal--12 .filters__modal-select-container > .filters__modal-button--12 {
+  box-shadow: 0 0 0 2px #222, 0 0 0 2px white inset;
+}
+.filters__modal:not(.filters__modal--all):not(.filters__modal--12) .filters__modal-result .filters__modal-button--12 {
+  display: none;
+}
+.filters__modal--12 .filters__modal-result-category:has(.filters__modal-button--12) {
   display: flex;
 }
 .filters__modal--all .filters__modal-select > .filters__modal-button--all {
@@ -555,7 +576,11 @@ sup {
   .inputs > div {
     flex-direction: column;
   }
+  .inputs__amount {
+    width: 100%;
+  }
   .inputs__amount-input[type=number] {
+    width: calc(100% - 3rem);
     text-align: center;
   }
   .inputs__equal {
@@ -568,7 +593,7 @@ sup {
     left: calc(100% - 3rem);
   }
   .inputs__help, .inputs__switch {
-    top: -0.75rem;
+    top: -0.25rem;
   }
   .inputs__format, .inputs__shuffle {
     top: 4rem;
@@ -579,6 +604,7 @@ sup {
     left: 0;
     right: 0;
     max-height: 80vh;
+    min-height: 20vh;
     min-width: unset !important;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;

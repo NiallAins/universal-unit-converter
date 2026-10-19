@@ -30,11 +30,13 @@ $c-yellow--l:   lighten($c-yellow,   18%);
 $c-gold--l:     lighten($c-gold,     18%);
 $c-green--l:    lighten($c-green,    18%);
 $c-shamrock--l: lighten($c-shamrock, 18%);
+$c-shamrock--l: lighten($c-shamrock, 18%);
 $c-blue--l:     lighten($c-blue,     18%);
 $c-cyan--l:     lighten($c-cyan,     18%);
 $c-purple--l:   lighten($c-purple,   28%);
 $c-pink--l:     lighten($c-pink,     18%);
 $c-brown--l:    lighten($c-brown,    42%);
+$c-black--l:    lighten($c-black,    42%);
 
 $c-bg--l:     $c-white;
 $c-bg--ll:    $c-white--t;
@@ -45,46 +47,49 @@ $c-text--d:  $c-black;
 $c-text--l:  $c-white;
 $c-text--ll: $c-gray;
 
-$c-mass:          $c-purple--l;
-$c-length:        $c-red--l;
 $c-time:          $c-cyan--l;
-$c-temperature:   $c-orange--l;
-$c-current:       $c-blue--l;
-$c-amount:        $c-green--l;
-$c-luminosity:    $c-yellow--l;
+$c-length:        $c-red--l;
 $c-area:          $c-pink--l;
 $c-volume:        $c-brown--l;
-$c-angle:         $c-gray--l;
-$c-force:         $c-gold--l;
+$c-mass:          $c-purple--l;
+$c-speed:         $c-green--l;
 $c-acceleration:  $c-shamrock--l;
+$c-force:         $c-gold--l;
+$c-temperature:   $c-orange--l;
+$c-angle:         $c-gray--l;
+$c-current:       $c-blue--l;
+$c-amount:        $c-black--l;
+$c-luminosity:    $c-yellow--l;
 
-$c-mass--d:         $c-purple;
-$c-length--d:       $c-red;
 $c-time--d:         $c-cyan;
-$c-temperature--d:  $c-orange;
-$c-current--d:      $c-blue;
-$c-amount--d:       $c-green;
-$c-luminosity--d:   $c-yellow;
+$c-length--d:       $c-red;
 $c-area--d:         $c-pink;
 $c-volume--d:       $c-brown;
-$c-angle--d:        $c-gray;
-$c-force--d:        $c-gold;
+$c-mass--d:         $c-purple;
+$c-speed--d:        $c-green;
 $c-acceleration--d: $c-shamrock;
+$c-force--d:        $c-gold;
+$c-temperature--d:  $c-orange;
+$c-angle--d:        $c-gray;
+$c-current--d:      $c-blue;
+$c-amount--d:       $c-black;
+$c-luminosity--d:   $c-yellow;
 
 // Order to match eDomains enum
 $c-domains: (
-    ( $c-mass,         $c-mass--d         ),
-    ( $c-length,       $c-length--d       ),
     ( $c-time,         $c-time--d         ),
-    ( $c-temperature,  $c-temperature--d  ),
-    ( $c-current,      $c-current--d      ),
-    ( $c-amount,       $c-amount--d       ),
-    ( $c-luminosity,   $c-luminosity--d   ),
+    ( $c-length,       $c-length--d       ),
     ( $c-area,         $c-area--d         ),
     ( $c-volume,       $c-volume--d       ),
-    ( $c-angle,        $c-angle--d        ),
+    ( $c-mass,         $c-mass--d         ),
+    ( $c-speed,        $c-speed--d        ),
     ( $c-acceleration, $c-acceleration--d ),
-    ( $c-force,        $c-force--d        )
+    ( $c-force,        $c-force--d        ),
+    ( $c-temperature,  $c-temperature--d  ),
+    ( $c-angle,        $c-angle--d        ),
+    ( $c-current,      $c-current--d      ),
+    ( $c-amount,       $c-amount--d       ),
+    ( $c-luminosity,   $c-luminosity--d   )
 );
 
 
@@ -139,7 +144,7 @@ $breakpoint: 980px;
     initial-value: $c-purple;
 }
 
-:root {
+.app {
     @for $i from 0 to length($c-domains) {
         $domain: nth($c-domains, $i + 1);
         
@@ -488,7 +493,7 @@ sup {
         position: relative;
         z-index: $z-modal;
         background-color: $c-bg--ll;
-        box-shadow: 0 $pad--lg $pad--xl 0 #0001;
+        box-shadow: 0 $pad--lg $pad--xl 0 $c-black--t;
         padding: 2rem $pad--xl $pad--sm;
         border-radius: 1rem;
         display: flex;
@@ -503,6 +508,10 @@ sup {
             flex-wrap: wrap;
             gap: $pad--sm;
             justify-content: center;
+
+            &-container {
+                display: contents;
+            }
         }
 
         &-result {
@@ -546,7 +555,7 @@ sup {
                 background-color: nth(nth($c-domains, $i + 1), 1);
             }
 
-            &--#{ $i } &-select > &-button--#{ $i } {
+            &--#{ $i } &-select-container > &-button--#{ $i } {
                 @include outline;
             }
 
@@ -598,8 +607,13 @@ sup {
             flex-direction: column;
         }
 
-        &__amount-input[type="number"] {
-            text-align: center;
+        &__amount {
+            width: 100%;
+
+            &-input[type="number"] {
+                width: calc(100% - 3rem);
+                text-align: center;
+            }
         }
 
         &__equal {
@@ -618,7 +632,7 @@ sup {
 
         &__help,
         &__switch {
-            top: -0.75rem
+            top: -0.25rem
         }
 
         &__format,
@@ -634,6 +648,7 @@ sup {
             left: 0;
             right: 0;
             max-height: 80vh;
+            min-height: 20vh;
             min-width: unset !important;
             border-bottom-right-radius: 0;
             border-bottom-left-radius: 0;

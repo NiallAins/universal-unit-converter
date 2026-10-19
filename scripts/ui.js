@@ -1,5 +1,5 @@
 import { convert } from './convert.js';
-import { DOMAINS, CATEGORIES, UNITS } from './data.js';
+import { CATEGORY_LABELS, DOMAINS, UNITS } from './data.js';
 import { eDomain } from './types.js';
 //
 // Private readonly variables
@@ -60,7 +60,7 @@ export function unitClick(unitName, domain) {
     updateConversion();
     toggleFilters();
 }
-export function filterKey(key) {
+export function filterKeyDown(key) {
     if (searchFirstKey && key.length === 1) {
         setTimeout(() => {
             currentActiveFilter.value = key;
@@ -92,7 +92,7 @@ export function filterSearch() {
                     filters__modal-button
                     filters__modal-button--${u.domain}
                 "
-                onclick="unitClick('${u.name}', '${u.domain}')"
+                onclick="unitClick('${u.name}', ${u.domain})"
             >
                 ${u.name}
             </button>
@@ -125,8 +125,8 @@ function switchInputs() {
 function updateConversion() {
     const AMOUNT = parseFloat(EL_INPUT_AMOUNT.value), [FROM_VALUE, TO_VALUE, CONVERT_KG] = convert(AMOUNT, fromUnit, toUnit);
     // Background gradient
-    EL_APP.dataset.from = eDomain[FROM_VALUE.inputUnit.domain];
-    EL_APP.dataset.to = eDomain[TO_VALUE.inputUnit.domain];
+    EL_APP.dataset.from = String(FROM_VALUE.inputUnit.domain);
+    EL_APP.dataset.to = String(TO_VALUE.inputUnit.domain);
     EL_INPUT_FROM_PROXY.innerHTML = fromUnit.string[AMOUNT === 1 ? 0 : 1];
     EL_INPUT_FROM_DESC.innerHTML = FROM_VALUE.toStringDescription(CONVERT_KG);
     const [STR_OUTPUT, STR_INPUT_PROXY, STR_OUTPUT_PER, STR_INPUT_DESC, HAS_PREFIX] = TO_VALUE.toString(CONVERT_KG);
@@ -142,7 +142,7 @@ function updateConversion() {
 //
 function _exposeToWindow() {
     window.toggleFilters = toggleFilters;
-    window.filterKey = filterKey;
+    window.filterKeyDown = filterKeyDown;
     window.setRandom = setRandom;
     window.switchInputs = switchInputs;
     window.changeFormat = changeFormat;
@@ -167,25 +167,29 @@ function _renderFilters() {
             </button>
         `)
         .join('');
-    EL_FILTERS_RESULT.innerHTML = CATEGORIES
-        .map(c => `
+    EL_FILTERS_RESULT.innerHTML = Object
+        .entries(CATEGORY_LABELS)
+        .sort((a, b) => parseInt(a[0]) - parseInt(b[0]))
+        .map(e => e[1])
+        .map((c, ci) => `
             <div class="filters__modal-result-category">
                 <h3 class="filters__modal-result-category-header">
-                    ${c.replace(/(^| )us/, '$1US')}
+                    ${c.replace(/^us([^a-z])/, 'US$1')}
                 </h3>
                 ${UNITS
-        .filter(u => u.category === c)
-        .reduce((htmu, u) => htmu + `
+        .filter(u => u.category === ci)
+        .map(u => `
                             <button
                                 class="
                                     filters__modal-button
                                     filters__modal-button--${u.domain}
                                 "
-                                onclick="unitClick('${u.name}', '${u.domain}')"
+                                onclick="unitClick('${u.name}', ${u.domain})"
                             >
                                 ${u.name}
                             </button>
-                        `, '')}
+                        `)
+        .join('')}
             </div>
         `)
         .join('');

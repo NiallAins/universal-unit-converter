@@ -26,7 +26,7 @@
                     id="EL_INPUT_AMOUNT"
                     class="input inputs__amount-input"
                     type="number"
-                    oninput="convert()"
+                    oninput="updateConversion()"
                 />
             </div>
             <div class="inputs__from">
@@ -45,7 +45,7 @@
                     autocomplete="off"
                     spellcheck="false"
                     onfocus="toggleFilters(event.target)"
-                    onkeydown="filterKey(event.key)"
+                    onkeydown="filterKeyDown(event.key)"
                 />
             </div>
         </div>
@@ -113,7 +113,7 @@
                     autocomplete="off"
                     spellcheck="false"
                     onfocus="toggleFilters(event.target)"
-                    onkeydown="filterKey(event.key)"
+                    onkeydown="filterKeyDown(event.key)"
                 />
             </div>
             <div
@@ -127,40 +127,44 @@
             </div>
         </div>
     </div>
+</div>
+
+<div
+    id="EL_FILTERS"
+    class="filters"
+>
     <div
-        id="EL_FILTERS"
-        class="filters"
+        id="EL_UNITS"
+        class="filters__modal"
     >
-        <div
-            id="EL_UNITS"
-            class="filters__modal"
-        >
-            <div class="filters__modal-select">
-                <div id="EL_FILTERS_BUTTONS"></div>
-                <button
-                    class="
-                        filters__modal-button
-                        filters__modal-button--all
-                    "
-                    onclick="EL_UNITS.classList.toggle('filters__modal--all')"
-                >
-                    All Units
-                </button>
-            </div>
+        <div class="filters__modal-select">
             <div
-                id="EL_FILTERS_RESULT"
-                class="filters__modal-result"
+                id="EL_FILTERS_BUTTONS"
+                class="filters__modal-select-container"    
             ></div>
-            <div
-                id="EL_FILTERS_SEARCH"
-                class="filters__modal-search"
-            ></div>
+            <button
+                class="
+                    filters__modal-button
+                    filters__modal-button--all
+                "
+                onclick="EL_UNITS.classList.toggle('filters__modal--all')"
+            >
+                All Units
+            </button>
         </div>
         <div
-            class="filters__scrim"
-            onclick="toggleFilters()"
+            id="EL_FILTERS_RESULT"
+            class="filters__modal-result"
+        ></div>
+        <div
+            id="EL_FILTERS_SEARCH"
+            class="filters__modal-search"
         ></div>
     </div>
+    <div
+        class="filters__scrim"
+        onclick="toggleFilters()"
+    ></div>
 </div>
 
 <script src="./scripts/main.js" type="module"></script>

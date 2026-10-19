@@ -4,10 +4,30 @@ export enum eDomain {
     Area,
     Volume,
     Mass,
+    Speed,
     Acceleration,
     Force,
     Temperature,
-    Angle
+    Angle,
+    Current,
+    Amount,
+    Luminosity
+};
+
+export enum eCategory {
+    Metric,
+    Imperial,
+    Us,
+    Troy,
+    Scientific,
+    Navigational,
+    NonAnglo,
+    Paper,
+    PaperUs,
+    Typo,
+    ArchaicTypo,
+    Informal,
+    Archaic
 };
 
 export interface iValue {
@@ -19,6 +39,8 @@ export type tSiUnits = {
     s?: number,
     kg?: number,
     m?: number,
+    r?: number,
+    e?: number,
     c?: number,
     w?: number
 }
@@ -32,7 +54,8 @@ export type tUnit = {
     description: string,
     scale: number,
     offset: number,
-    category: string,
+    invert: boolean,
+    category: eCategory,
     searchString: string,
     string: [string, string],
     siPrepend: boolean

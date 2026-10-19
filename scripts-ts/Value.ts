@@ -1,5 +1,5 @@
-import { tUnit, iValue, tSiUnits, eDomain, tSiUnitKeys } from './types.js';
-import { DOMAINS, SI_PREFIX } from './data.js';
+import { tUnit, iValue, tSiUnits, eDomain, tSiUnitKeys, eCategory } from './types.js';
+import { CATEGORY_LABELS, DOMAINS, SI_PREFIX } from './data.js';
 
 
 //
@@ -250,14 +250,8 @@ function _createDescription(unit: tUnit, siPrepend: boolean, exp: number = 0): s
             `One ${ namePrefix } is equal to 10<sup>${ exp }</sup> ${ nameDouble }<br/>`
         : '' }
         ${ _addArticle(nameSingle, true) } is
-        ${ _addArticle(
-            unit.category === 'us'
-                ? 'American'
-                : unit.category === 'paper us'
-                ? 'American paper'
-                : unit.category
-        ) }
-        unit of ${ unit.domain }</br>
+        ${ _addArticle(CATEGORY_LABELS[unit.category]) }
+        unit of ${ eDomain[unit.domain] }</br>
         It is equivilent to
         ${
             unit.description.match(/^\d/)
