@@ -42,7 +42,8 @@ export type tSiUnits = {
     r?: number,
     e?: number,
     c?: number,
-    w?: number
+    kw?: number,
+    mw?: number
 }
 
 export type tSiUnitKeys = (keyof tSiUnits)[];

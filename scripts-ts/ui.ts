@@ -200,28 +200,28 @@ function updateConversion() {
             fromUnit,
             toUnit
         );
-
-    // Background gradient
-    EL_APP.dataset.from = String(FROM_VALUE.inputUnit.domain);
-    EL_APP.dataset.to = String(TO_VALUE.inputUnit.domain);
-
-    EL_INPUT_FROM_PROXY.innerHTML = fromUnit.string[AMOUNT === 1 ? 0 : 1];
-    EL_INPUT_FROM_DESC.innerHTML = FROM_VALUE.toStringDescription(CONVERT_KG);
-    
-    const [
+        
+        // Background gradient
+        EL_APP.dataset.from = String(FROM_VALUE.inputUnit.domain);
+        EL_APP.dataset.to = String(TO_VALUE.inputUnit.domain);
+        
+        EL_INPUT_FROM_PROXY.innerHTML = fromUnit.string[AMOUNT === 1 ? 0 : 1];
+        EL_INPUT_FROM_DESC.innerHTML = FROM_VALUE.toStringDescription(CONVERT_KG, addPrefix);
+        
+        const [
         STR_OUTPUT,
         STR_INPUT_PROXY,
         STR_OUTPUT_PER,
         STR_INPUT_DESC,
         HAS_PREFIX
-    ] = TO_VALUE.toString(CONVERT_KG);
+    ] = TO_VALUE.toString(CONVERT_KG, addPrefix);
 
     EL_OUTPUT.innerHTML = STR_OUTPUT;
     EL_INPUT_TO_PROXY.innerHTML = STR_INPUT_PROXY;
     EL_OUTPUT_PER.innerHTML = STR_OUTPUT_PER;
     EL_INPUT_TO_DESC.innerHTML = STR_INPUT_DESC;
 
-    EL_BUTTON_FORMAT.classList.toggle('inputs__button--hide', !HAS_PREFIX || !addPrefix);
+    EL_BUTTON_FORMAT.classList.toggle('inputs__button--hide', !HAS_PREFIX);
     EL_OUTPUT_PER_CONTAIN.classList.toggle('inputs__output--hide', !STR_OUTPUT_PER);
 }
 

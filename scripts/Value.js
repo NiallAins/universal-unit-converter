@@ -1,5 +1,5 @@
 import { eDomain } from './types.js';
-import { CATEGORY_LABELS, DOMAINS, SI_PREFIX } from './data.js';
+import { CATEGORY_LABELS, DOMAINS, SI_PREFIX, SI_UNIT_LABELS } from './data.js';
 //
 // Private readonly variables
 //
@@ -29,21 +29,21 @@ export class Value {
         Object.keys(Object.assign(Object.assign({}, value.baseSiUnits), this.baseSiUnits))
             .forEach(v => this.baseSiUnits[v] = (value.baseSiUnits[v] || 0) - (this.baseSiUnits[v] || 0));
     }
-    toStringDescription(convertKg = false) {
-        let [prefix, e] = this._getStringParams(convertKg);
-        return _createDescription(this.inputUnit, this.inputUnit.siPrepend, prefix ? e : 0);
+    toStringDescription(convertKg = false, allowPrefix) {
+        let [prefix, e] = this._getStringParams(convertKg, allowPrefix);
+        return _createDescription(this.inputUnit, this.inputUnit.siPrepend, allowPrefix && prefix ? e : 0);
     }
-    toString(convertKg = false) {
+    toString(convertKg = false, allowPrefix) {
         if (!this.baseScale) {
             return [
-                '0',
+                '<span class="inputs__output-number">0</span>',
                 this.inputUnit.string[1],
                 '',
                 _createDescription(this.inputUnit, this.inputUnit.siPrepend),
                 false
             ];
         }
-        let [prefix, e, scale, units, neg, log] = this._getStringParams(convertKg);
+        let [prefix, e, scale, units, neg, log] = this._getStringParams(convertKg, allowPrefix);
         scale =
             scale.indexOf('.') > -1 && scale.indexOf('.') <= NUM_MAX_DIGITS
                 ? scale.substring(0, 6).replace(/\.?0+$/, '')
@@ -51,26 +51,22 @@ export class Value {
         scale = `<span class="inputs__output-number">${scale}</span>`;
         let toProxy = this.inputUnit.string[scale === '1' ? 0 : 1], unitPre = Object
             .entries(units)
-            .filter(u => u[1] > 0 && u[0] !== 'w')
+            .filter(u => u[1] > 0)
+            .map(u => [SI_UNIT_LABELS[u[0]] || u[0], u[1]])
             .map(u => u[1] === 1 ? u[0] : u[0] + `<sup>${u[1]}</sup>`)
             .join('⋅')
-            .replace(/⋅?c/, ' light –'), unitPost = Object
+            .replace(new RegExp('⋅?' + SI_UNIT_LABELS.c), ' light')
+            .replace(/light<sup>2<\/sup>/, 'squared-light')
+            .replace(/light<sup>3<\/sup>/, 'cubed-light'), unitPost = Object
             .entries(units)
             .filter(u => u[1] < 0)
-            .map(u => [u[0], u[1] * -1])
+            .map(u => [SI_UNIT_LABELS[u[0]] || u[0], u[1] * -1])
             .map(u => u[1] === 1 ? u[0] : u[0] + `<sup>${u[1]}</sup>`)
             .join('⋅');
         if (unitPost) {
             unitPost = 'per ' + unitPost;
         }
-        if (units.w) {
-            unitPost =
-                (units.w > 0 ? 'of' : 'per') +
-                    ' water' +
-                    (units.w !== 1 ? `<sup>${Math.abs(units.w)}</sup> ` : ' ');
-            unitPost;
-        }
-        if (prefix) {
+        if (allowPrefix && prefix) {
             // Alter for prefix + kilogram case
             if (toProxy.indexOf('Kilo') === 0 && e !== 0) {
                 toProxy = toProxy.slice(4);
@@ -99,8 +95,10 @@ export class Value {
             log >= SI_PREFIX_MIN && log < SI_PREFIX_MAX && !(log >= 0 && log < 3)
         ];
     }
-    _getStringParams(convertKg) {
-        let [scale, units] = insertProxyUnits(Math.abs(this.baseScale), this.baseSiUnits, convertKg), neg = this.baseScale < 0, log = Math.log10(scale), prefix = log >= SI_PREFIX_MIN && log < SI_PREFIX_MAX, e = 0;
+    _getStringParams(convertKg, allowPrefix) {
+        let [scale, units] = insertProxyUnits(Math.abs(this.baseScale), this.baseSiUnits, convertKg), neg = this.baseScale < 0, log = Math.log10(scale), prefix = allowPrefix
+            ? log >= SI_PREFIX_MIN && log < SI_PREFIX_MAX
+            : false, e = 0;
         if (prefix) {
             while (scale >= 1000) {
                 scale /= 1000;
@@ -111,7 +109,10 @@ export class Value {
                 e -= 3;
             }
         }
-        else if (scale < 0.0001 || scale >= 100000) {
+        else if (scale &&
+            scale !== Infinity &&
+            scale !== -Infinity &&
+            (scale < 0.0001 || scale >= 100000)) {
             while (scale >= 10) {
                 scale /= 10;
                 e += 1;
@@ -152,18 +153,14 @@ function insertProxyUnits(scale, units, convertKg) {
         }
     }
     // Water-...
-    if (convertKg && units.kg &&
-        (units.m || units.s)) {
-        for (let i = 0; i < units.kg; i++) {
-            scale *= units.kg > 0 ? 0.001 : 1000;
-            units.w = (units.w || 0) + (units.kg > 0 ? 1 : -1);
-            units.m = (units.m || 0) + (units.kg > 0 ? 3 : -3);
-        }
+    if (convertKg && units.kg) {
+        units.mw = units.kg;
         units.kg = 0;
     }
     return [scale, units];
 }
 function _createDescription(unit, siPrepend, exp = 0) {
+    var _a;
     let nameSingle = unit.string[0], nameDouble = unit.string[1], namePrefix = '';
     if (exp !== 0) {
         namePrefix = nameSingle;
@@ -188,7 +185,7 @@ function _createDescription(unit, siPrepend, exp = 0) {
         ${_addArticle(CATEGORY_LABELS[unit.category])}
         unit of ${eDomain[unit.domain]}</br>
         It is equivilent to
-        ${unit.description.match(/^\d/)
+        ${((_a = unit.description) === null || _a === void 0 ? void 0 : _a.match(/^\d/))
         ? ''
         : _addArticle(unit.description, false, true)}
         <span class="inputs__description--code">

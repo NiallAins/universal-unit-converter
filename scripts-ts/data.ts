@@ -1,5 +1,5 @@
 import UNITS_CSV from './units.csv.js';
-import { tUnit, eDomain, tSiUnits, eCategory } from './types.js';
+import { tUnit, eDomain, tSiUnits, eCategory, tSiUnitKeys } from './types.js';
 
 
 //
@@ -80,9 +80,16 @@ const
         'Double Shot (East Euro)':  'Double Shots (East Euro)',
         'Foot per Second Squared':  'Feet per Second Squared',
         'Metre per Second Squared': 'Metres per Second Squared',
+        'Foot per Second':          'Feet per Second',
+        'Metre per Second':         'Metres per Second',
+        'Mile per Hour':            'Miles per Hour',
+        'Metre per Hour':           'Metres per Hour',
         'Cubic Foot':               'Cubic Feet',
         'Square Foot':              'Square Feet',
         'Metric Foot':              'Metric Feet',
+        'Speed of Light':           '&times; Speed of Light',
+        'Minute per Kilometer':     'Minutes per Kilometer',
+        'Minute per Mile':          'Minutes per Mile',
         'A Series 0':    'A0s',
         'A Series 1':    'A1s',
         'A Series 2':    'A2s',
@@ -238,25 +245,36 @@ export const
     UNITS: tUnit[] = _unitsCsvToJson(UNITS_CSV),
     
     DOMAINS: { [key in eDomain]: {
-        name?: string,
-        symbol?: string,
         scale: number,
         siUnits: tSiUnits
     } } = {
-        [eDomain.Time]:         { name: 'Second',   symbol: 's',  scale: 1,               siUnits: { s: 1                     } },
-        [eDomain.Length]:       { name: 'Metre',    symbol: 'm',  scale: 1,               siUnits: { m: 1                     } },
-        [eDomain.Area]:         {                                 scale: 1,               siUnits: { m: 2                     } },
-        [eDomain.Volume]:       {                                 scale: 1,               siUnits: { m: 3                     } },
-        [eDomain.Mass]:         { name: 'Kilogram', symbol: 'kg', scale: 0.001,           siUnits: { kg: 1                    } },
-        [eDomain.Speed]:        {                                 scale: 1,               siUnits: { m: 1, s: -1              } },
-        [eDomain.Acceleration]: {                                 scale: 1,               siUnits: { m: 1, s: -2              } },
-        [eDomain.Force]:        {                                 scale: 1,               siUnits: { m: 1, s: -2, kg: 1       } },
-        [eDomain.Temperature]:  { name: 'Kelvin',   symbol: 'K',  scale: 1.380649e-23,    siUnits: { m: 2, s: -2, kg: 1       } },
-        [eDomain.Angle]:        {                                 scale: 1,               siUnits: {                          } },
-        [eDomain.Current]:      {                                 scale: 1.602176634e-19, siUnits: { s: -1, e: 1              } },
-        [eDomain.Amount]:       {                                 scale: 1,               siUnits: {                          } },
-        [eDomain.Luminosity]:   {                                 scale: 0.00146412884,   siUnits: { m: 2, s: 1, kg: 1, r: -2 } },
+        [eDomain.Time]:         { scale: 1,               siUnits: { s: 1                       } },
+        [eDomain.Length]:       { scale: 1,               siUnits: { m: 1                       } },
+        [eDomain.Area]:         { scale: 1,               siUnits: { m: 2                       } },
+        [eDomain.Volume]:       { scale: 1,               siUnits: { m: 3                       } },
+        [eDomain.Mass]:         { scale: 0.001,           siUnits: { kg: 1                      } },
+        [eDomain.Speed]:        { scale: 1,               siUnits: { m: 1, s: -1                } },
+        [eDomain.Acceleration]: { scale: 1,               siUnits: { m: 1, s: -2                } },
+        [eDomain.Force]:        { scale: 1,               siUnits: { m: 1, s: -2, kg: 1         } },
+        [eDomain.Temperature]:  { scale: 4184,            siUnits: { m: 2, s: -2, kg: 1, kw: -1 } },
+        [eDomain.Angle]:        { scale: 1,               siUnits: {                            } },
+        [eDomain.Current]:      { scale: 1.602176634e-19, siUnits: { s: -1, e: 1                } },
+        [eDomain.Amount]:       { scale: 1,               siUnits: {                            } },
+        [eDomain.Luminosity]:   { scale: 0.00146412884,   siUnits: { m: 2, s: 1, kg: 1, r: -2   } }
+    },
+
+    SI_UNIT_LABELS: { [key in keyof Required<tSiUnits>]: string } = {
+        s:  's',
+        m:  'm',
+        kg: 'kg',
+        e:  '<i>e</i>',
+        kw:  'kg of water',
+        mw:  'm<sup>3</sup> of water',
+        c:  '<i>c</i>',
+        r:  'rad'
     };
+
+
 
 //
 // Private functions
@@ -305,10 +323,10 @@ function _unitsCsvToJson(csv: string): tUnit[] {
                 domain,
                 symbol,
                 description,
-                scale:        parseFloat(scale),
-                offset:       parseFloat(offset) || 0,
-                invert:       offset === 'invert',
                 category,
+                scale:  parseFloat(scale),
+                offset: parseFloat(offset) || 0,
+                invert: offset === 'invert',
                 searchString:
                     (
                         name +

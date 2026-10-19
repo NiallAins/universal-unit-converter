@@ -3,29 +3,35 @@ import { Value } from './Value.js';
 
 
 //
-// Conversions
+// Public functions
 //
 
 export function convert(amount: number, from: tUnit, to: tUnit): [Value, Value, boolean] {
     const
-        FROM_VALUE = new Value(from.invert ? 1 / amount : amount, from),
+        NO_OFFSET =  _xor(from.domain === eDomain.Temperature, to.domain === eDomain.Temperature),
+        FROM_VALUE = new Value(
+            from.invert ? 1 / amount : amount,
+            from,
+            NO_OFFSET
+        ),
         TO_VALUE = new Value(1, to, true),
         CONVERT_KG = from.domain === eDomain.Mass || to.domain === eDomain.Mass;
 
-    if (
-        (from.domain === eDomain.Angle || to.domain === eDomain.Angle) &&
-        (from.domain !== eDomain.Angle || to.domain !== eDomain.Angle)
-    ) {
-        TO_VALUE.baseScale =
-            from.domain === eDomain.Angle
-                ? Math.tan(FROM_VALUE.baseScale)
-                : Math.atan2(FROM_VALUE.baseScale, 1);
-        (Object.keys(TO_VALUE.baseSiUnits) as tSiUnitKeys)
-            .forEach(v => TO_VALUE.baseSiUnits[v]! *= -1);
-        TO_VALUE.baseScale /= TO_VALUE.inputScale;
+    if (_xor(from.domain === eDomain.Angle, to.domain === eDomain.Angle)) {
+        if (from.domain === eDomain.Angle) {
+            TO_VALUE.baseScale = Math.tan(FROM_VALUE.baseScale) * TO_VALUE.baseScale;;
+            
+            (Object.keys(TO_VALUE.baseSiUnits) as tSiUnitKeys)
+                .forEach(v => TO_VALUE.baseSiUnits[v]! *= -1);
+        } else {
+            TO_VALUE.baseScale = Math.atan2(FROM_VALUE.baseScale, 1) / TO_VALUE.baseScale;
+
+            (Object.keys(FROM_VALUE.baseSiUnits) as tSiUnitKeys)
+                .forEach(v => TO_VALUE.baseSiUnits[v] = FROM_VALUE.baseSiUnits[v]);
+        }
     } else {
         TO_VALUE.divideInto(FROM_VALUE);
-        TO_VALUE.baseScale -= TO_VALUE.inputUnit.offset;
+        TO_VALUE.baseScale -= NO_OFFSET ? 0 : TO_VALUE.inputUnit.offset;
     }
 
     if (to.invert) {
@@ -37,4 +43,17 @@ export function convert(amount: number, from: tUnit, to: tUnit): [Value, Value, 
         TO_VALUE,
         CONVERT_KG
     ];
+}
+
+
+//
+// Private functions
+//
+
+function _xor(a: boolean, b: boolean) {
+    return (a || b) && (!a || !b);
+}
+
+function _nand(a: boolean, b: boolean) {
+    return !(a && b);
 }
